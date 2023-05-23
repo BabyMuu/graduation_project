@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8"></meta>
+    <script src="http://cdn.bootcss.com/echarts/3.2.2/echarts.js"></script>
+    <script src="http://lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        function draw() {
+            var text = [['一次函数', '二次函数', 0.64], ['二次函数', '一次函数', 0.78], ['一次函数', '四边形', 0.73], ['四边形', '一次函数', 0.89], ['一次函数', '实数', 0.82], ['实数', '一次函数', 0.82], ['一次函数', '概率', 0.64], ['概率', '一次函数', 0.7], ['一次函数', '轴对称', 0.82], ['轴对称', '一次函数', 0.9], ['不等式', '实数', 0.88], ['实数', '不等式', 0.64], ['二次函数', '四边形', 0.78], ['四边形', '二次函数', 0.78], ['二次函数', '实数', 0.89], ['实数', '二次函数', 0.73], ['四边形', '实数', 0.89], ['实数', '四边形', 0.73], ['四边形', '轴对称', 0.78], ['轴对称', '四边形', 0.7], ['概率', '实数', 0.7], ['实数', '概率', 0.64], ['轴对称', '实数', 0.9], ['实数', '轴对称', 0.82], ['概率', '轴对称', 0.7], ['轴对称', '概率', 0.7], ['二次函数', '分式', 0.78], ['分式', '二次函数', 1.0], ['四边形-一次函数', '实数', 0.88], ['实数-一次函数', '四边形', 0.78], ['实数-四边形', '一次函数', 0.88], ['四边形-一次函数', '实数', 0.88], ['实数-一次函数', '四边形', 0.78], ['实数-四边形', '一次函数', 0.88], ['轴对称-一次函数', '实数', 0.89], ['实数-一次函数', '轴对称', 0.89], ['实数-轴对称', '一次函数', 0.89], ['轴对称-一次函数', '实数', 0.89], ['实数-一次函数', '轴对称', 0.89], ['实数-轴对称', '一次函数', 0.89], ['轴对称-四边形', '实数', 1.0], ['实数-四边形', '轴对称', 0.88], ['实数-轴对称', '四边形', 0.78], ['轴对称-四边形', '实数', 1.0], ['实数-四边形', '轴对称', 0.88], ['实数-轴对称', '四边形', 0.78]];
+            var data = eval(text);
+            var graph = data2Graph(data);
+            drawGraph(graph);
+        }
+
+        function data2Graph(data) {
+            var graph = {}
+            var vertices = {}
+            var links = [];
+            for (var i = 0; i < data.length; i++) {
+                var s = String(data[i][0]);
+                var t = String(data[i][1]);
+                var v = data[i][2];
+                vertices[s] = s;
+                vertices[t] = t;
+                links.push({'source': s, 'target': t, 'value': v});
+            }
+            var nodes = [];
+            $.each(vertices, function (k, v) {
+                nodes.push({'name': v, 'value': v});
+            });
+            graph['links'] = links;
+            graph['data'] = nodes;
+            return graph;
+        }
+
+        function drawGraph(graph) {
+            var myChart = echarts.init(document.getElementById("echarts-main"));
+
+
+
+            var option = {
+                tooltip: {}, var winWidth = document.body.clientWidth;
+            var winHeight = document.body.clientHeight;
+            graph.nodes.forEach(function (node) {
+                node.x = parseInt(Math.random() * 1000);  //这里是最重要的如果数据中有返回节点x,y位置这里就不用设置，如果没有这里一定要设置node.x和node.y，不然无法定位节点 也实现不了拖拽了；
+                node.y = parseInt(Math.random() * 1000);
+                if (node.attributes.modularity_class != 4) {
+                    node.symbolSize = [42, 42];
+                    node.sizeFlag = [42, 42];
+                } else {
+                    node.symbolSize = [64, 64];
+                    node.sizeFlag = [64, 64];
+                }
+                node.category = node.attributes.modularity_class;
+                node.label = {
+                    normal: {
+                        show: true
+                    }
+                }
+            });
+                series: [
+                    {
+                        type: 'graph',
+                        layout: 'force',
+                        symbolSize: 60,
+
+                        edgeSymbol: ['circle', 'arrow'],
+                        data: graph.data,
+                        links: graph.links,
+                        roam: true,
+                        label: {
+                            show: true,
+                            normal: {
+                                formatter: function (e) {
+                                    return e['data']['value'];
+                                },
+                            },
+
+                        },
+                        edgeLabel: {
+                            normal: {
+                                show: true,
+                                position: 'middle',
+                            }
+                        },
+                        force: {
+                            repulsion: 6000,
+                            edgeLength: 200
+                        }
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        }
+
+        $(document).ready(function () {
+            draw();
+            $("#gen-btn").on("click", function () {
+                draw();
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div id="echarts-main" style="height:900px;width:1600px;border:1px dashed;"></div>
+</body>
+</html>
