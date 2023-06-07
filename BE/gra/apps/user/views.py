@@ -86,8 +86,8 @@ class ScoreView(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        ps = request.query_params
-        stu_name, student_id = ps.get('stu_name'), ps.get('student_id')
+        qs = request.query_params
+        stu_name, student_id = qs.get('stu_name'), qs.get('student_id')
         if stu_name:
             student = Students.objects.filter(name=stu_name).first()
             if not student:

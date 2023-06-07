@@ -3,10 +3,7 @@
     @Author : BabyMuu
     @Time   : 2023/2/4 12:56
 """
-""" @File   : AL
-    @Author : BabyMuu
-    @Time   : 2022/5/1 9:46
-"""
+
 
 class Apriori:
     def __init__(self, dataset):
@@ -134,6 +131,7 @@ class Apriori:
                 sta_list.append(item)
         _print()
         return sta_list
+
 
 if __name__ == '__main__':
     dataset = [[1, 3, 4], [2, 3, 5], [1, 2, 3, 5], [2, 5]]
