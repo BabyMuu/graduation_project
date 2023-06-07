@@ -3,19 +3,17 @@
     @Author : BabyMuu
     @Time   : 2023/2/10 12:06
 """
-import datetime
 import json
-from collections import defaultdict
 
 import pandas as pd
-from django.http import HttpResponse, JsonResponse
-from requests import Response
+from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.viewsets import ViewSet, ModelViewSet, GenericViewSet
+from rest_framework.viewsets import ViewSet, GenericViewSet
 from rest_framework.mixins import ListModelMixin, CreateModelMixin
 from sklearn.cluster import KMeans
 
+from collections import defaultdict
 from gra.utils.Apriori import Apriori
 from . import serialize
 from .models import *
@@ -155,24 +153,10 @@ class SimpleView(ViewSet):
             rule[1] = "-".join(rule[1])
             rule[2] = round(rule[2], 2)
             return rule
+
         rules = list(map(process, rules))
-        # rules = [
-        #          ['有理数', '三角函数', 0.73],
-        #          ['实数', '三角函数', 0.73],
-        #          ['三角形', '三角函数', 0.9],
-        #          ['实数', '有理数', 0.85],
-        #          ['三角函数-实数', '四边形', 0.85],
-        #          ['四边形-实数', '三角函数', 0.73],
-        #          ['一次函数', '二次函数', 0.88],
-        #          ['一次函数', '反比例函数', 0.75],
-        #          ['二次函数', '反比例函数', 0.78],
-        #          ['分式-整式', '因数分解', 0.73],
-        #          ['圆-四边形', '几何', 0.88],
-        #          ['一元一次方程', '一元二次方程', 0.88],
-        #          ['一元一次方程', '二元二次方程', 0.89],
-        #          ['二元一次方程', '一元二次方程', 0.93],
-        #          ]
         rules = json.dumps(rules, ensure_ascii=False)
+        ApriExam.objects.create(*{'exam_id':exam_id, 'apri_res': rules})
         serializer = ExamSerializer(data={
             'exam_id' : exam_id,
             'apri_res': rules

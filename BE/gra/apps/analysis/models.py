@@ -23,3 +23,5 @@ class Exams(models.Model):
 class ApriExam(mongoengine.Document):
     exam_id = mongoengine.IntField()
     apri_res = mongoengine.StringField()
+
+
