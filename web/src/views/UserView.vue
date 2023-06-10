@@ -20,7 +20,7 @@ import {Search} from '@element-plus/icons-vue'
         <template #append>
           <el-button @click="this.searchBy=''">清空</el-button>
           &nbsp; | &nbsp;&nbsp;
-          <el-button :icon="Search" @click="this.getFormValue(1)"/>
+          <el-button :icon="Search" @click="this.getFormValue(1, this.searchBy)"/>
         </template>
       </el-input>
     </div>
@@ -309,8 +309,16 @@ export default {
       return flag
     },
     // 获取所有用户数据  分页获取
-    getFormValue(pageNum) {
-      axios.get("user/stu/?page=" + pageNum, {}
+    getFormValue(pageNum, searchBy) {
+      let param = {
+        'page':pageNum
+      }
+      if (this.searchBy !== "" && this.searchBy != null) {
+        param['name'] = this.searchBy
+      }
+      axios.get("user/stu/", {
+            params: param
+          }
       ).then(response => {
         this.users = response.data.results
         this.userTotal = response.data.count

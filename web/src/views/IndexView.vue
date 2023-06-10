@@ -8,7 +8,7 @@ import Menu from '@/components/Menu.vue'
     <el-container class="home-container">
       <el-header id="title">
         <img alt="Vue logo" src="@/assets/logo.svg"/>
-        <span id="title" style="color: yellow">𝓑𝓪𝓬𝓴𝓰𝓻𝓸𝓾𝓷𝓭 𝓶𝓪𝓷𝓪𝓰𝓮𝓶𝓮𝓷𝓽 𝓼𝔂𝓼𝓽𝓮𝓶</span>
+        <span id="title" style="color: yellow">𝓢𝓽𝓾𝓭𝓮𝓷𝓽 𝓟𝓮𝓻𝓯𝓸𝓻𝓶𝓪𝓷𝓬𝓮 𝓐𝓷𝓪𝓵𝔂𝓼𝓲𝓼 𝓟𝓵𝓪𝓽𝓯𝓸𝓻𝓶</span>
         <el-menu
             :default-active="activeIndex"
             class="el-menu-demo"
